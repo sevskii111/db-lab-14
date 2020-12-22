@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container my-2">
+      <form class="form-inline w-100 d-flex" id="search-from">
+        <input
+          type="text"
+          class="form-control mb-2 mr-sm-2 flex-grow-1"
+          id="inlineFormInputName2"
+          placeholder="Исполнитель"
+        />
+        <button type="submit" class="btn btn-primary mb-2">Искать</button>
+      </form>
+      <ul class="list-group"></ul>
+    </div>
+    <script>
+      document.getElementById("search-from").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const artist_name = document.querySelector("input").value;
+        const table = document.querySelector(".list-group");
+        table.innerHTML = "";
+        fetch(`/find?artist_name=${artist_name}`)
+          .then((res) => res.json())
+          .then((res) => {
+            for (const track of res) {
+              const li = document.createElement("li");
+              li.classList.add("list-group-item");
+              li.innerText = track;
+              table.appendChild(li);
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
